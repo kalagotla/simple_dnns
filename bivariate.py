@@ -151,9 +151,9 @@ class Bivariate:
                         self.net(self.val_data_set.x).data.reshape(self.val_data_set.x1len,
                                                                    self.val_data_set.x2len).numpy())
 
-        val_accuracy = np.linalg.norm(self.val_data_set.y.numpy() - self.net(self.val_data_set.x).data.numpy()) ** 2 \
+        val_err = np.linalg.norm(self.val_data_set.y.numpy() - self.net(self.val_data_set.x).data.numpy()) ** 2 \
                        / len(self.net(self.val_data_set.x).data)
-        print(f'Validation error for the trained model = {val_accuracy}')
+        print(f'Validation error for the trained model = {val_err}')
 
 
 class Data(Dataset):

@@ -148,24 +148,44 @@ class SimpleData:
             b.append(y)
 
         val_x = a[0].numpy()
-        val_x = np.sort(val_x)
+        old_val_x = val_x.copy()
+        val_x = np.sort(val_x, axis=0)
         val_y = b[0].numpy()
-        val_yhat = self.net(a[0]).data.numpy()
+        err_val_yhat = self.net(a[0]).data.numpy()
+        val_yhat = self.net(torch.from_numpy(val_x)).data.numpy()
 
         fig = plt.figure()
         ax = fig.add_subplot(1, 1, 1)
-        ax.plot(val_x, val_y, '.', label='dataset')
-        ax.plot(val_x, val_yhat, '.', label='predictions')
+        ax.plot(old_val_x, val_y, '.', label='dataset')
+        ax.plot(val_x, val_yhat, label='predictions')
+        ax.legend()
 
-        val_accuracy = np.linalg.norm(val_y - val_yhat) ** 2 / len(val_y)
+        val_accuracy = np.linalg.norm(val_y - err_val_yhat) ** 2 / len(val_y)
         print(f'Validation error for the trained model = {val_accuracy}')
 
     def validation_real_data(self):
         self.validation()
-        x = np.linspace(-6, 7, 1000)
-        y = .5 * x + np.sqrt(np.amax(x, 0)) - np.cos(x) + 2
-        plt.plot(x, y, label='real_data')
+
+        val_loader = DataLoader(dataset=self.val_data_set, batch_size=64)
+
+        a = []
+        b = []
+        for x, y in val_loader:
+            a.append(x)
+            b.append(y)
+
+        val_x = a[0].numpy()
+        val_x = np.sort(val_x, axis=0)
+        val_y = b[0].numpy()
+        val_yhat = self.net(torch.from_numpy(val_x)).data.numpy()
+
+        # x = np.linspace(-6, 7, 1000)
+        real_y = (.5 * val_x + np.sqrt(np.amax(val_x, 0)) - np.cos(val_x) + 2)
+        plt.plot(val_x, real_y, label='real_data')
         plt.legend()
+
+        val_error = np.linalg.norm(real_y - val_yhat) ** 2 / len(val_y)
+        print(f"Validation error against real data: {val_error}")
 
 
 class Data(Dataset):

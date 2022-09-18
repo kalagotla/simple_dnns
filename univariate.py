@@ -151,15 +151,19 @@ class Univariate:
             b.append(y)
 
         val_x = a[0].numpy()
+        old_val_x = val_x.copy()
+        val_x = np.sort(val_x, axis=0)
         val_y = b[0].numpy()
-        val_yhat = self.net(a[0]).data.numpy()
+        err_val_yhat = self.net(a[0]).data.numpy()
+        val_yhat = self.net(torch.from_numpy(val_x)).data.numpy()
 
         fig = plt.figure()
         ax = fig.add_subplot(1, 1, 1)
-        ax.plot(val_x, val_y, '.')
-        ax.plot(val_x, val_yhat, '.')
+        ax.plot(old_val_x, val_y, '.', label='dataset')
+        ax.plot(val_x, val_yhat, label='predictions')
+        ax.legend()
 
-        val_accuracy = np.linalg.norm(val_y - val_yhat) ** 2 / len(val_y)
+        val_accuracy = np.linalg.norm(val_y - err_val_yhat) ** 2 / len(val_y)
         print(f'Validation error for the trained model = {val_accuracy}')
 
 
