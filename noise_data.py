@@ -162,7 +162,7 @@ class NoiseData:
         ax.plot(val_yhat)
 
         val_error = np.linalg.norm(val_y - val_yhat) ** 2 / len(val_y)
-        print(f'Validation error for the trained model = {val_accuracy}')
+        print(f'Validation error for the trained model = {val_error}')
 
 
 class Data(Dataset):
