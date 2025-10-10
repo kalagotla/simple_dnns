@@ -83,7 +83,7 @@ class SimpleData:
         yhat = model(data_set.x)
         return (abs(yhat.data.numpy() - data_set.y.numpy()) <= 1.0).mean()
 
-    def train(self, plot=True, plot_at=1, save_at=100, filename='simple_data_model.tar'):
+    def train(self, plot=True, plot_at=1, save_at=100, filename='models/simple_data_model.tar'):
         LOSS = []
         ACC = []
         LOSST = []
@@ -131,7 +131,7 @@ class SimpleData:
 
         self.net.apply(weight_reset)
 
-    def continue_train(self, filename='simple_data_model.tar'):
+    def continue_train(self, filename='models/simple_data_model.tar'):
         checkpoint = torch.load(filename)
         self.net.load_state_dict(checkpoint['model_state_dict'])
         self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])

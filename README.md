@@ -1,5 +1,5 @@
 # Simple DNNs
-Basics of Deep Neural Networks (DNNs) for Aerospace sophomores
+Basics of Deep Neural Networks (DNNs)
 
 # Use the provided setup files to start. If they fail, follow the steps to setup manually below.
 
@@ -21,3 +21,10 @@ Instead of step 4, run the following commands:
  - `conda config --add channels conda-forge`
  - `conda config --set channel_priority strict`
  - `conda env create --name torch --file requirements.txt`
+
+### Models directory
+Saved training checkpoints (.tar files) are now stored in the `models/` directory.
+
+- Default save/load filenames in `simple_dnns/univariate.py`, `simple_dnns/bivariate.py`, `simple_dnns/simple_data.py`, and `simple_dnns/noise_data.py` now use `models/...` paths (e.g., `models/1var_model.tar`).
+- The `models/*.tar` artifacts are ignored by git via `.gitignore`.
+- If you have existing `.tar` files in the project root, move them into `models/`.

@@ -87,7 +87,7 @@ class NoiseData:
         #     return np.linalg.norm(yhat.data.numpy() - data_set.y.numpy())**2 / len(yhat)
         return (abs(yhat - data_set.y) <= 1e-3).numpy().mean()
 
-    def train(self, plot=True, plot_at=1, save_at=100, filename='noise_data_model.tar'):
+    def train(self, plot=True, plot_at=1, save_at=100, filename='models/noise_data_model.tar'):
         LOSS = []
         ACC = []
         LOSST = []
@@ -135,7 +135,7 @@ class NoiseData:
 
         self.net.apply(weight_reset)
 
-    def continue_train(self, filename='noise_data_model.tar'):
+    def continue_train(self, filename='models/noise_data_model.tar'):
         checkpoint = torch.load(filename)
         self.net.load_state_dict(checkpoint['model_state_dict'])
         self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])

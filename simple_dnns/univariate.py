@@ -86,7 +86,7 @@ class Univariate:
         yhat = model(data_set.x)
         return (abs(yhat - data_set.y) <= 1e-1).numpy().mean()
 
-    def train(self, plot=True, plot_at=1, save_at=100, filename='1var_model.tar'):
+    def train(self, plot=True, plot_at=1, save_at=100, filename='models/1var_model.tar'):
         LOSS = []
         ACC = []
         LOSST = []
@@ -134,7 +134,7 @@ class Univariate:
 
         self.net.apply(weight_reset)
 
-    def continue_train(self, filename='1var_model.tar'):
+    def continue_train(self, filename='models/1var_model.tar'):
         checkpoint = torch.load(filename)
         self.net.load_state_dict(checkpoint['model_state_dict'])
         self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
